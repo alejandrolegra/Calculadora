@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -6,9 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static java.awt.Font.PLAIN;
 
@@ -31,6 +30,8 @@ public class Calculadora extends JFrame {
     double num2 = 0;
     double res = 0;
     String simboloOperacion = "";
+
+    static int contador = 0;
 
 
     public Calculadora() {
@@ -91,7 +92,7 @@ public class Calculadora extends JFrame {
     }
 
     private void colocarBotones() {
-
+        int velocitat = 3;
         for (int i = 0; i < numBotones; i++) {
             botones[i] = new JButton(textoBotones[i]);
             if (i == 18) {
@@ -111,8 +112,42 @@ public class Calculadora extends JFrame {
         for (int j = 0; j < numNumeros; j++) {
             int botonsNums = posnumeros[j];
             botones[botonsNums].setBackground(Color.black);
-
         }
+        randomColors();
+
+    }
+
+    private void randomColors() {
+        int velocitat = 3;
+        Timer timer;
+        TimerTask tarea;
+        int velmil = velocitat*1000;
+
+        tarea = new TimerTask() {
+            @Override
+            public void run() {
+                switch (contador) {
+                    case 0:
+                        contador = 1;
+                        for (int j = 0; j < numNumeros; j++) {
+                            int botonsNums = posnumeros[j];
+                            botones[botonsNums].setBackground(Color.blue);
+                        }
+                        break;
+
+                    case 1:
+                        contador = 0;
+                        for (int j = 0; j < numNumeros; j++) {
+                            int botonsNums = posnumeros[j];
+                            botones[botonsNums].setBackground(Color.black);
+                        }
+                        break;
+                }
+
+            }
+        };
+        timer = new Timer();
+        timer.scheduleAtFixedRate(tarea, velmil, velmil);
 
     }
 
